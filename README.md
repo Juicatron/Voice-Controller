@@ -110,7 +110,7 @@ Voice Controller is a Python-based application that allows users to control thei
 
 ### Keyword Recognition Issues
 - If your keywords are not being recognized, run the program and check the command line output. It will show the recognized words, for example: Recognized word::example.
-    - Note that keywords like "two," "to," "too," "for," and "four" might cause issues due to their similarity. To resolve this, create mappings for each keyword with the same key.
+    - Note that keywords like "two," "to," and "too" might cause issues due to their similarity. To resolve this, create mappings for each keyword with the same key.
 
 ### Invalid Key in Keyword Mapping
 - If your keyword is recognized and displayed in the command line as shown below, it means that the key associated with the keyword is not valid. To fix this, check the mappings to ensure that the key specified is correct and valid.
