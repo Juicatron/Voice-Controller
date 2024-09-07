@@ -64,8 +64,8 @@ Voice Controller is a Python-based application that allows users to control thei
 - settings.py: Manages application settings.
 - setup.py: Sets up the environment by installing dependencies and creating configuration files.
 - keyword_mappings.py: Manages keyword mappings and their display in the GUI.
-- settings.json: Configuration file for application settings.
-- keyword_mappings.json: Configuration file for keyword mappings.
+- settings.json: Configuration file for application settings. (Created when the program is run)
+- keyword_mappings.json: Configuration file for keyword mappings. (Created when the program is run)
 
 ## Troubleshooting:
 ### Running the Script
