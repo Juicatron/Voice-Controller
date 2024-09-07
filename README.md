@@ -1,5 +1,4 @@
 # Voice Controller
-
 ## Inspiration:
 I was playing a modded version of Skyrim called Lorerim and kept accidentally pressing the wrong 'F' keys and struggling to get back to the WASD keys quickly enough, which led to my character dying repeatedly. Since dying so often couldn't possibly be due to a lack of skill, I decided to blame it on my controls and find a solution.
 
@@ -69,8 +68,42 @@ Voice Controller is a Python-based application that allows users to control thei
 - keyword_mappings.json: Configuration file for keyword mappings.
 
 ## Troubleshooting:
-- Missing Dependencies: If a required package is not installed, the setup script will attempt to install it. Ensure you have pip installed and accessible.
-- Configuration Issues: If settings.json or keyword_mappings.json is missing or corrupted, the application will create default files.
+### Running the Script
+- If python main.py doesn’t work, try running the script with python3 main.py instead.
+  
+### Automatic Package Installation
+- All required packages should download automatically when you start the program. If you encounter issues, ensure that you have an active internet connection and try running python setup.py manually to install the packages.
 
+### Configuration Files
+- The settings.json and keyword_mappings.json files will be automatically created. If you suspect these files are causing issues, try deleting them. The program will recreate them on the next run.
+
+### Vosk Model Issues
+- If the command line keeps showing the error message 'Error in main loop: 'NoneType' object has no attribute 'read', it indicates the Vosk model is not set up correctly.
+    - Ensure that the Vosk model directory contains the following subdirectories:
+        - am
+        - conf
+        - graph
+        - ivector
+    - If the selected directory does not have these subdirectories, it is the wrong directory.
+ 
+### Voice Feedback Not Playing
+- If no voice feedback is playing and you have checked 'Enable Voice Feedback,' ensure that you have selected a voice from the dropdown menu.
+
+### Keyword Recognition Issues
+- If your keywords are not being recognized, run the program and check the command line output. It will show the recognized words, for example: Recognized word::example.
+    - Note that keywords like "two," "to," "too," "for," and "four" might cause issues due to their similarity. To resolve this, create mappings for each keyword with the same key.
+
+### Invalid Key in Keyword Mapping
+- If your keyword is recognized and displayed in the command line as shown below, it means that the key associated with the keyword is not valid. To fix this, check the mappings to ensure that the key specified is correct and valid.
+  - Recognized word::example
+  - Example Feedback
+  - Error in main loop: 'example'
+
+### Permissions Issues
+- Ensure that you have the necessary permissions to read and write files in the directory where the program is running. Sometimes, lack of permissions can prevent the program from creating or accessing files.
+
+### Python Version
+- Make sure you are using a compatible version of Python. The program is designed for Python 3.x. Running it with Python 2.x might cause unexpected issues.
+  
 ## License:
 This project is licensed under the MIT License. See the LICENSE file for details.
