@@ -65,6 +65,10 @@ def toggle_voice_recognition():
     current_state = load_setting('run_voice_recognition')
     new_state = not current_state
     update_setting('run_voice_recognition', new_state)
+    if new_state:
+        print("Start Recoginizing Voice")
+    else:
+        print("Stop Recoginizing Voice")
 
 def get_engine():
     return engine
