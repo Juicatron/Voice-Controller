@@ -30,26 +30,25 @@ Voice Command Controller is a Python-based application that allows users to cont
 8. Run the application using:
     - python main.py
 
-## Configuration:
-1. Settings:
-   - settings.json: Stores configuration settings such as voice feedback, model directory, and selected voice.
-   - keyword_mappings.json: Stores keyword mappings for voice commands.
-
-2. Adjust Settings:
-   - Run the graphical user interface to configure settings and manage keyword mappings:
-     python main_gui.py
-
 ## Usage:
 1. Start the Application:
-   python main.py
-   This will start the main application, which initializes voice recognition and waits for commands.
+   - Run the application by executing:
+       - python main.py
+   - This command opens the main graphical user interface (GUI) of the application.
+   - In the GUI, you can select a voice from the dropdown menu.
+   - Click the 'Set Vosk Model' button and choose the folder where you extracted the Vosk model you downloaded.
+       - If this step is not completed the program will not work. 
 
 2. Managing Mappings:
-   - Use the GUI to add or modify keyword mappings.
-   - Define keywords, associated keys, and feedback for each mapping.
+   - Click the 'Open Mapping Window' button to open the keyword mapping editor.
+   - In the mapping editor, you can:
+       - Add New Mappings: Enter a keyword, associated key, and feedback, then click 'Add Mapping.'
+       - Modify Existing Mappings: Reuse the same keyword to update its mapping.
+   - Ensure you define a keyword, the corresponding key to press, and the feedback text for each mapping.
 
-3. Toggle Voice Recognition:
-   - Use the GUI to enable or disable voice recognition.
+5. Toggle Voice Recognition:
+   - To start or stop voice recognition, click the 'Toggle Voice Recognition' button.
+   - When enabled, the application will listen for and react to voice commands according to the mappings you've set up.
 
 ## Files:
 - main.py: Main script for running the voice command application.
