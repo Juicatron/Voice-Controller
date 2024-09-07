@@ -58,6 +58,25 @@ Voice Controller is a Python-based application that allows users to control thei
    - To start or stop voice recognition, click the 'Toggle Voice Recognition' button.
    - When enabled, the application will listen for and react to voice commands according to the mappings you've set up.
 
+6. Directly Changing keyword_mappings.json
+   - Open keyword_mappings.json with any text editor.
+   - You will see content similar to the following:
+        {
+            "example": {
+                "key": "'example'",
+                "feedback": "Example Feedback"
+            }
+        }
+   - You can modify the contents as needed, but ensure that the following formatting remains correct:
+       -  Quotation marks ""
+       -  Curly braces {} for objects
+       -  Commas , separating items
+   
+   - If you have made changes and the file becomes invalid, use [JSONLint](https://jsonlint.com) to check the validity:
+       - Copy and paste your code into the input box on JSONLint.
+       - Press 'Validate JSON.'
+   - JSONLint will highlight any errors and indicate where the issue is.
+   
 ## Files:
 - main.py: Main script for running the voice command application.
 - main_gui.py: GUI script for configuring settings and managing keyword mappings.
