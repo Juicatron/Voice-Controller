@@ -26,7 +26,7 @@ Voice Controller is a Python-based application that allows users to control thei
 1. Press the green "Code" button on the repository page.
 2. Download the ZIP file.
 3. Extract the file to your desired directory.
-4. Go to the [Vosk Website](https://alphacephei.com/vosk/)
+4. Go to the [Vosk Website](https://alphacephei.com/vosk/models)
     - download and extract the small package for your chosen language.
 5. Download Python if you don’t already have it.
     - Installation Guides: The Python documentation provides detailed installation instructions for different operating systems. Here are direct links to the installation sections:
