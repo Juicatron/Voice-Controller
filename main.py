@@ -33,7 +33,6 @@ keyboard = None
 p = None
 stream = None
 mappings = {}
-play_voice = False
 
 def check_flag_file():
     if os.path.exists(FLAG_FILE):
@@ -43,24 +42,35 @@ def check_flag_file():
 def initialize():
     """Initialize components for voice recognition."""
     global engine, model, recognizer, keyboard, p, stream, mappings
+
+    try:
+        engine = pyttsx3.init()
+        
+        model = Model(load_setting('model_directory'))
+
+        recognizer = KaldiRecognizer(model, 16000)
+
+        keyboard = Controller()
+
+        p = pyaudio.PyAudio()
+        stream = p.open(format=pyaudio.paInt16, channels=1, rate=16000, input=True, frames_per_buffer=8192)
+        stream.start_stream()
+
+        voices = engine.getProperty('voices')
+        selected_voice = load_setting('voice')
+        for voice in voices:
+            if selected_voice in voice.name:
+                print(voice)
+                engine.setProperty('voice', voice.id)
+
+        mappings = load_mappings()
+        print(f"Loaded mappings: {mappings}")
+
+    except Exception as e:
+        print(f"Initialization error: {e}")
     
-    print("INIT MAIN LOOP")
-    engine = gui.get_engine()
-    model = Model(load_setting('model_directory'))
-    recognizer = KaldiRecognizer(model, 16000)
-    keyboard = Controller()
-    p = pyaudio.PyAudio()
-    stream = p.open(format=pyaudio.paInt16, channels=1, rate=16000, input=True, frames_per_buffer=8192)
-    stream.start_stream()
-    play_voice = load_setting('play_voice')
-    voices = engine.getProperty('voices')
-    selected_voice = load_setting('voice')
-    for voice in voices:
-        if selected_voice in voice.name:
-            engine.setProperty('voice', voice.id)
-    
-    mappings = load_mappings()
-    print(f"Loaded mappings: {mappings}")
+    print("Initialization complete.\n\nReady for commands.")
+
     
 def run_main_loop():
     initialized = False
@@ -72,7 +82,6 @@ def run_main_loop():
             
             if run_voice_recognition:
                 if not initialized:
-                    print("INIT MAIN LOOP")
                     initialize()
                     initialized = True
                     
@@ -88,7 +97,7 @@ def start_gui():
     gui.start_gui()
 
 def main():
-    def try_word(word, play_voice=False):
+    def try_word(word, play_voice):
         if mappings:
             for keyword, mapping in mappings.items():
                 if word == keyword:
@@ -118,8 +127,8 @@ def main():
             words = recognized_text.split()
             
             for word in words:
-                print(f"Word Recognized::{word}")
-                try_word(word)
+                print(f"Recognized word::{word}")
+                try_word(word, load_setting('play_voice'))
     
     listen_for_keyword()
 
