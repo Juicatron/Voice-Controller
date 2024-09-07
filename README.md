@@ -1,7 +1,14 @@
 # Voice Controller
 
+## Inspiration:
+I was playing a modded version of Skyrim called Lorerim and kept accidentally pressing the wrong 'F' keys and struggling to get back to the WASD keys quickly enough, which led to my character dying repeatedly. Since dying so often couldn't possibly be due to a lack of skill, I decided to blame it on my controls and find a solution.
+
+So, I spent a day creating a Python script to help me switch loadouts and stances more quickly. It works, but if you use voice feedback, you need to wait for the engine to finish speaking before issuing the next command. For a faster experience, you can uncheck the voice feedback option.
+
+Feel free to use this script however you like, but be warned: it’s probably not optimized and I may not update it often.
+
 ## Overview:
-Voice Command Controller is a Python-based application that allows users to control their computer using voice commands. The system integrates voice recognition with text-to-speech and keyboard control, providing a hands-free way to execute commands. The application includes a graphical user interface for easy configuration and management of voice commands and settings.
+Voice Controller is a Python-based application that allows users to control their computer using voice commands. The system integrates voice recognition with text-to-speech and keyboard control, providing a hands-free way to execute commands. The application includes a graphical user interface for easy configuration and management of voice commands and settings.
 
 ## Features:
 - Voice Recognition: Uses Vosk for real-time voice recognition.
@@ -68,6 +75,3 @@ Contributions are welcome! Please open an issue or submit a pull request if you 
 
 ## License:
 This project is licensed under the MIT License. See the LICENSE file for details.
-
-## Contact:
-For questions or support, please contact me @ juicatron@gmail.com).
