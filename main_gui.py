@@ -96,7 +96,7 @@ def start_gui():
     root.resizable(False, False)
     root.title("Voice Controller")
     root.protocol("WM_DELETE_WINDOW", on_closing)
-
+    root.geometry("525x100")
     play_voice_var = tk.BooleanVar(value=load_setting('play_voice'))
     voice_var = tk.StringVar(value=load_setting('voice'))
     vosk_model_var = tk.StringVar(value=load_setting('model_directory'))
