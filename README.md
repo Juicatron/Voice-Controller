@@ -1,4 +1,4 @@
-# Voice Command Controller
+# Voice Controller
 
 ## Overview:
 Voice Command Controller is a Python-based application that allows users to control their computer using voice commands. The system integrates voice recognition with text-to-speech and keyboard control, providing a hands-free way to execute commands. The application includes a graphical user interface for easy configuration and management of voice commands and settings.
@@ -15,13 +15,16 @@ Voice Command Controller is a Python-based application that allows users to cont
 - Dependencies: pyttsx3, vosk, pyaudio, pynput, tkinter
 
 ## Installation:
-1. Clone the Repository:
-    git clone <repository-url>
-    cd <repository-directory>
-
-2. Run the Setup Script:
-    python setup.py
-   This script will install the required packages and create necessary configuration files.
+1. Press the green "Code" button on the repository page.
+2. Download the ZIP file.
+3. Extract the file to your desired directory.
+4. Go to the Vosk website (https://alphacephei.com/vosk/)
+    - download and extract the small package for your chosen language.
+5. Open Command Line, PowerShell, or a comparable terminal.
+6. Download Python if you don’t already have it.
+7. Move to the directory of the Voice Command Controller.
+8. Run the application using:
+    - python main.py
 
 ## Configuration:
 1. Settings:
