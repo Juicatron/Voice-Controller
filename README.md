@@ -7,7 +7,7 @@ So, I spent a day creating a Python script to help me switch loadouts and stance
 
 Feel free to use this script however you like, but be warned: it’s probably not optimized, there are better ways to do it, and I will probably forget about it.
 
-This was also my first time making a gui and I'm still learning python, so don't judge me.
+This was also my first time making a GUI and I'm still learning Python, so don't judge me.
 
 ## Overview:
 Voice Controller is a Python-based application that allows users to control their computer using voice commands. The system integrates voice recognition with text-to-speech and keyboard control, providing a hands-free way to execute commands. The application includes a graphical user interface for easy configuration and management of voice commands and settings.
