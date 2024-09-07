@@ -69,7 +69,7 @@ Voice Controller is a Python-based application that allows users to control thei
 
 ## Troubleshooting:
 ### Running the Script
-- If python main.py doesn’t work, try running the script with python3 main.py instead.
+- If 'python main.py' doesn’t work, try running the script with 'python3 main.py' instead.
   
 ### Automatic Package Installation
 - All required packages should download automatically when you start the program. If you encounter issues, ensure that you have an active internet connection and try running python setup.py manually to install the packages.
