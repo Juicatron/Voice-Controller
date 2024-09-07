@@ -20,8 +20,12 @@ Voice Command Controller is a Python-based application that allows users to cont
 3. Extract the file to your desired directory.
 4. Go to the Vosk website (https://alphacephei.com/vosk/)
     - download and extract the small package for your chosen language.
-5. Open Command Line, PowerShell, or a comparable terminal.
-6. Download Python if you don’t already have it.
+5. Download Python if you don’t already have it.
+    - Installation Guides: The Python documentation provides detailed installation instructions for different operating systems. Here are direct links to the installation sections:
+        - Windows: [Installing Python on Windows](https://docs.python.org/3/using/windows.html)
+        - macOS: [Installing Python on macOS](https://docs.python.org/3/using/mac.html)
+        - Linux: [Installing Python on Linux](https://docs.python.org/3/using/unix.html)
+6. Open a terminal.
 7. Move to the directory of the Voice Command Controller.
 8. Run the application using:
     - python main.py
