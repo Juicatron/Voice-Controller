@@ -5,7 +5,7 @@ I was playing a modded version of Skyrim called Lorerim and kept accidentally pr
 
 So, I spent a day creating a Python script to help me switch loadouts and stances more quickly. It works, but if you use voice feedback, you need to wait for the engine to finish speaking before issuing the next command. For a faster experience, you can uncheck the voice feedback option.
 
-Feel free to use this script however you like, but be warned: it’s probably not optimized and I may not update it often.
+Feel free to use this script however you like, but be warned: it’s probably not optimized, there are better ways to do it, and I will probably forget about it.
 
 ## Overview:
 Voice Controller is a Python-based application that allows users to control their computer using voice commands. The system integrates voice recognition with text-to-speech and keyboard control, providing a hands-free way to execute commands. The application includes a graphical user interface for easy configuration and management of voice commands and settings.
