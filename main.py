@@ -1,142 +1,132 @@
-import keyword
-import subprocess
-import sys
 import os
-import json
-from turtle import listen
-
-def run_setup():
-    try:
-        subprocess.check_call([sys.executable, 'setup.py'])
-    except subprocess.CalledProcessError as e:
-        print(f"Failed to run setup.py: {e}")
-        sys.exit(1)
-        
-run_setup()
-
-import pyttsx3
-from vosk import Model, KaldiRecognizer
-from pynput.keyboard import Key, Controller
 import time
-import threading
-import main_gui as gui
-import pyaudio
+import tkinter as tk
+from tkinter import filedialog, messagebox
+import pyttsx3
 from settings import load_setting, update_setting
-from keyword_mappings import load_mappings
+from keyword_mappings import mapping_gui
 
 FLAG_FILE = 'stop_flag.txt'
 
-engine = None
-model = None
-recognizer = None
-keyboard = None
-p = None
-stream = None
-mappings = {}
-
-def check_flag_file():
-    if os.path.exists(FLAG_FILE):
-        os.remove(FLAG_FILE)
-        sys.exit()
-
-def initialize():
-    """Initialize components for voice recognition."""
-    global engine, model, recognizer, keyboard, p, stream, mappings
-
-    try:
-        engine = pyttsx3.init()
-        
-        model = Model(load_setting('model_directory'))
-
-        recognizer = KaldiRecognizer(model, 16000)
-
-        keyboard = Controller()
-
-        p = pyaudio.PyAudio()
-        stream = p.open(format=pyaudio.paInt16, channels=1, rate=16000, input=True, frames_per_buffer=8192)
-        stream.start_stream()
-
-        voices = engine.getProperty('voices')
-        selected_voice = load_setting('voice')
-        for voice in voices:
-            if selected_voice in voice.name:
-                print(voice)
-                engine.setProperty('voice', voice.id)
-
-        mappings = load_mappings()
-        print(f"Loaded mappings: {mappings}")
-
-    except Exception as e:
-        print(f"Initialization error: {e}")
-    
-    print("Initialization complete.\n\nReady for commands.")
-
-    
-def run_main_loop():
-    initialized = False
-    
-    while True:
-        check_flag_file() 
-        try:          
-            run_voice_recognition = load_setting('run_voice_recognition')
-            
-            if run_voice_recognition:
-                if not initialized:
-                    initialize()
-                    initialized = True
-                    
-                main()  
-            else:
-                initialized = False
-                time.sleep(0.25)  
+def on_closing():
+    def confirm_quit():
+        try:
+            with open(FLAG_FILE, 'w') as f:
+                f.write('stop')
         except Exception as e:
-            print(f"Error in main loop: {e}")
-            time.sleep(1) 
+            print(f"Error writing {FLAG_FILE}: {e}")
+        root.destroy()
+
+    dialog = tk.Toplevel(root)
+    dialog.title("Quit Confirmation")
+    dialog.geometry("350x200")
+
+    message = (
+        "!WARNING!\n\n"
+        "If you quit while the engine is speaking the program will\n"
+        "hang.\n\n"
+        "Stop Voice Recognition and wait for the speaking to finish\n"
+        "before quitting.\n\n"
+        "Do you want to quit?"
+    )
+
+    label = tk.Label(dialog, text=message, wraplength=350, justify='center')
+    label.pack(side=tk.TOP, anchor='n', expand=True, padx=20, pady=5)
+
+    ok_button = tk.Button(dialog, text="Quit", command=confirm_quit, width=15)
+    ok_button.place(x=60, y=155, width=100)
+
+    cancel_button = tk.Button(dialog, text="Cancel", command=dialog.destroy, width=15)
+    cancel_button.place(x=200, y=160, width=100)
+
+    dialog.grab_set()
+    dialog.transient(root)
+    
+    center_window(dialog)
+
+def find_model_dir():
+    directory = filedialog.askdirectory()
+    if directory:
+        required_file = os.path.join(directory, 'conf/model.conf')
+        if os.path.isfile(required_file):
+            update_setting('model_directory', directory)
+        else:
+            messagebox.showerror("Invalid Model", "The selected directory does not contain a valid Vosk model.")
+
+def setup_voice_options(engine):
+    voices = engine.getProperty('voices')
+    words_to_remove = {"Microsoft", "Desktop"}
+    return [
+        ''.join(word for word in voice.name.split() if word not in words_to_remove).split('-')[0]
+        for voice in voices
+    ]
+
+def toggle_voice_recognition():
+    current_state = load_setting('run_voice_recognition')
+    new_state = not current_state
+    update_setting('run_voice_recognition', new_state)
+    if new_state:
+        print("Start Recoginizing Voice")
+    else:
+        print("Stop Recoginizing Voice")
+
+def get_engine():
+    return engine
+
+def center_window(window):
+    window.update_idletasks()
+    
+    window_width = window.winfo_width()
+    window_height = window.winfo_height()
+    
+    screen_width = window.winfo_screenwidth()
+    screen_height = window.winfo_screenheight()
+    
+    x = (screen_width - window_width) // 2
+    y = (screen_height - window_height) // 2
+    
+    window.geometry(f"{window_width}x{window_height}+{x}+{y}")
 
 def start_gui():
-    gui.start_gui()
-
-def main():
-    def try_word(word, play_voice):
-        if mappings:
-            for keyword, mapping in mappings.items():
-                if word == keyword:
-                    print(mapping['feedback'])
-                    if play_voice:
-                        engine.say(mapping['feedback'])
-                        engine.runAndWait()
-                
-                    key_to_press = mapping['key']
-
-                    if hasattr(Key, key_to_press):
-                        keyboard.press(getattr(Key, key_to_press))
-                        keyboard.release(getattr(Key, key_to_press))
-                    else:
-                        keyboard.press(key_to_press)
-                        keyboard.release(key_to_press)
-                
-                    break 
-        else:
-            print(f"No mappings found for word: {word}")
-                    
-    def listen_for_keyword():
-        data = stream.read(4096, exception_on_overflow=False)
-        if recognizer.AcceptWaveform(data):
-            result = recognizer.Result()
-            recognized_text = json.loads(result).get('text','')
-            words = recognized_text.split()
-            
-            for word in words:
-                print(f"Recognized word::{word}")
-                try_word(word, load_setting('play_voice'))
+    global root
+    global vosk_model_button
+    global engine
     
-    listen_for_keyword()
+    root = tk.Tk()  
+    root.resizable(False, False)
+    root.title("Voice Controller")
+    root.protocol("WM_DELETE_WINDOW", on_closing)
+    root.geometry("525x100")
+    play_voice_var = tk.BooleanVar(value=load_setting('play_voice'))
+    voice_var = tk.StringVar(value=load_setting('voice'))
+    vosk_model_var = tk.StringVar(value=load_setting('model_directory'))
 
+    engine = pyttsx3.init()
+    voice_options = setup_voice_options(engine)
+    selected_voice = tk.StringVar(value=voice_var.get())
 
-if __name__ == "__main__":
-    update_setting('run_voice_recognition', False)
+    tk.Checkbutton(
+        root,
+        text="Enable Voice Feedback",
+        variable=play_voice_var,
+        command=lambda: update_setting('play_voice', play_voice_var.get())
+    ).grid(row=0, column=0, padx=10, pady=5, sticky=tk.W)
 
-    gui_thread = threading.Thread(target=start_gui, daemon=True)
-    gui_thread.start()
+    def on_voice_change(*args):
+        update_setting('voice', selected_voice.get())
+    
+    selected_voice.trace('w', on_voice_change)
+    
+    tk.OptionMenu(root, selected_voice, *voice_options).grid(row=0, column=1, padx=10, sticky=tk.W)
 
-    run_main_loop()
+    vosk_model_button = tk.Button(root, text="Set Vosk Model", command=find_model_dir)
+    vosk_model_button.grid(row=0, column=2, padx=10, pady=10, sticky=tk.W)
+
+    tk.Button(root, text="Open Mapping Window", command=mapping_gui).grid(row=0, column=3, padx=10, sticky=tk.W)
+
+    toggle_voice_recognition_button = tk.Button(root, text="Toggle Voice Recognition", command=toggle_voice_recognition)
+    toggle_voice_recognition_button.grid(row=1, column=0, columnspan=4, pady=10)
+    
+    center_window(root)
+    
+    root.mainloop()
