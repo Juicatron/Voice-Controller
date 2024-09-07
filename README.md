@@ -72,8 +72,5 @@ Voice Controller is a Python-based application that allows users to control thei
 - Missing Dependencies: If a required package is not installed, the setup script will attempt to install it. Ensure you have pip installed and accessible.
 - Configuration Issues: If settings.json or keyword_mappings.json is missing or corrupted, the application will create default files.
 
-## Contributing:
-Contributions are welcome! Please open an issue or submit a pull request if you have suggestions or improvements.
-
 ## License:
 This project is licensed under the MIT License. See the LICENSE file for details.
